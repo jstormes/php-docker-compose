@@ -14,7 +14,7 @@ services:
     environment:
       - TZ=America/Chicago
     ports:
-      - "8001:80"
+      - "8001:8001"
     volumes:
       - ./app:/app
       - ./:/project
@@ -22,7 +22,7 @@ services:
       - ./.docker/php/php.development.ini:/usr/local/etc/php/php.ini
       - ./.docker/php/conf.d/xdebug.php7.ini:/usr/local/etc/php/conf.d/xdebug.ini
     # The export in the next line overrides the defaults for XDebug set in the xdebug.ini for HTTP.
-    command: bash -c 'export XDEBUG_MODE=debug,develop,gcstats,profile,trace XDEBUG_CONFIG="remote_enable=on"; php -S 0.0.0.0:80 -t /app/html'
+    command: bash -c 'export XDEBUG_MODE=debug,develop,gcstats,profile,trace XDEBUG_CONFIG="remote_enable=on"; php -S 0.0.0.0:8001 -t /app/html'
     extra_hosts:
       - "host.docker.internal:host-gateway"
     secrets:
