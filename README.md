@@ -51,6 +51,8 @@ user@45640a57cf9f:/app$ `composer (command)`
 
 The current configuration will look for an SSH key in `~/.ssh/id_rsa`.
 
+If you don't need that commnet out any lines that refrence that.
+
 ## XDebug
 
 XDebug is installed and configured separately for the command line (CLI) and web (HTTP).
