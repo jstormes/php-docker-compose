@@ -25,9 +25,9 @@ services:
     command: bash -c 'export XDEBUG_MODE=debug,develop,gcstats,profile,trace XDEBUG_CONFIG="remote_enable=on"; php -S 0.0.0.0:8001 -t /app/html'
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    secrets:
-      - source: ssh_key
-        target: /home/user/.ssh/id_rsa
+#    secrets:
+#      - source: ssh_key
+#        target: /home/user/.ssh/id_rsa
 
   prod-server:
     build:
