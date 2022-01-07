@@ -10,10 +10,12 @@ Make sure you have Docker and Docker Compose installed.
 
 [Installing Docker on Windows 10](Documentation/01a_InstallingDockerOnWindows.md)
 
-[Youtube: Installing Docker on Windows 10](https://youtu.be/lIkxbE_We1I)
+[YouTube: Installing Docker on Windows 10](https://youtu.be/lIkxbE_We1I)
+
+[YouTube: Installing Docker on Ubuntu](https://youtu.be/EL1Ex04iUcA)
 
 From the directory root of the project run `docker-compose up` open your browser to 
-[http://localhost:8001](http://localhost:8001).
+[http://localhost:8001](http://localhost:8001/).
 
 To stop the Docker container, from the Docker CLI windows press [Control]-C.
 
