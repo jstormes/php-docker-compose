@@ -32,7 +32,7 @@ services:
   prod-server:
     build:
       context: .
-      dockerfile: .docker/prod.docker/php8.prod.dockerfile
+      dockerfile: .docker/prod.docker/php7.prod.dockerfile
     environment:
       - TZ=America/Chicago
     ports:
