@@ -12,6 +12,14 @@ RUN apt-get -y update \
        unzip
 
 ############################################################################
+# Install Internationalization
+############################################################################
+RUN apt-get -y update \
+&& apt-get install -y libicu-dev \
+&& docker-php-ext-configure intl \
+&& docker-php-ext-install intl
+
+############################################################################
 # Setup XDebug https://xdebug.org/download/historical
 # xdebug-x.x.x for specific version
 # Last PHP 5 XDebug version is 2.5.5

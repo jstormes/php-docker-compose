@@ -76,6 +76,14 @@ services:
     ports:
       - "9083:80"
 
+  ######## Hopscotch #######
+  postwoman:
+    image: hoppscotch/hoppscotch
+    environment:
+      - TZ=America/Chicago
+    ports:
+      - "3000:3000"
+
   ######## Apache AB #######
   performance-testing:
     image: httpd
