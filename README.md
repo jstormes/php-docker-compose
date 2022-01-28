@@ -36,6 +36,9 @@ Stop the Docker containers.
 
 Do a search and replace in the file `docker-compose.yml` for `php8` with `php5` or `php7`.
 
+For PHP 5 you will need to switch from the xdebug_3.x.x.ini file to the xdebug_2.x.x.ini
+file.
+
 Then run `docker-compose build`.
 
 Next, start the docker container by running `docker-compose up`.
