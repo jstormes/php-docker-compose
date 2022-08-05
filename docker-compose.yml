@@ -1,0 +1,169 @@
+version: '3.8'
+
+############################################################################
+# This section `secrets` is for sharing secret files between the host
+# and Docker containers.  Unlike `volumes` secrets can be outside the
+# project's directory structure and have special rules to help prevent them
+# from being included in a Docker image.
+#
+# The common development use case is ssh keys for private git repositories.
+############################################################################
+secrets:
+  ssh_key:
+    file: ~/.ssh/id_rsa
+
+############################################################################
+# This section `services` is where the "servers" are.  Each service provides
+# a "server".  Common development use cases are web servers, database
+# servers and testing servers.
+#
+# The purpose of each section of the services is to define how the service
+# interacts with the host.
+############################################################################
+services:
+
+  ##########################################################################
+  # This section defines the PHP development server.
+  ##########################################################################
+  dev-server:
+    # This section tells Docker to build a new container using the
+    # setup specified in the given dockerfile.
+    build:
+      context: .
+      dockerfile: .docker/dev.docker/php7.dev.dockerfile
+
+    # This section sets the environment variables inside the Docker container.
+    environment:
+      - TZ=America/Chicago
+
+    # `ports` tells Docker to map port 80 from inside the container to
+    # port 8001 outside the container aka port 8001 on the host.
+    # In this case you can "open" this server by pointing a browser on the
+    # host to http://localhost:8001.
+    # {host port}:{container port}
+    ports:
+      - "8001:80"
+
+    # `volumes` tells Docker to map folders and files from the host to
+    # inside the Docker container.
+    # NOTE: The host folder/file MUST be inside the project directory.
+    # {host folder}:{container folder}
+    volumes:
+      - ./app:/app
+      - ./:/project
+      - ./.docker/php/php.development.ini:/usr/local/etc/php/php.ini
+      - ./.docker/php/conf.d/xdebug_3.x.x.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      #- ./.docker/php/conf.d/xdebug_2.x.x.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./xdebug.info:/xdebug.info
+
+    # This section `command` overrides the default command from the docker image.
+    # We are using this to force Docker to start our own command when the container
+    # starts.  We are further using bash to override some environment variables
+    # only for this command.  This is special use case to control the setup for PHP
+    # XDebug.
+    #
+    # This command starts a PHP server on port 80 using our mapped folder `/app/html`.
+    #
+    # The export in the next line overrides the defaults for XDebug set in the xdebug.ini for HTTP.
+    command: bash -c 'export XDEBUG_MODE=debug,develop,gcstats,profile,trace XDEBUG_CONFIG="remote_enable=on"; php -S 0.0.0.0:80 -t /app/html'
+
+    # `extra_hosts` lets us create DNS hostnames inside our container.
+    # internal:host-gateway will map back to the host system.  This is used
+    # so that XDebug can find the IDE for breakpoints.
+    #
+    # If you look inside the xdebug.ini file(s) you will see references to this
+    # hostname (host.docker.internal).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    # `secrets` allows folders and files specified in the `secrets` at the top of this
+    # file to be mapped inside the container.
+#    secrets:
+#      - source: ssh_key
+#        target: /home/user/.ssh/id_rsa
+
+
+  ##########################################################################
+  # This section defines a simulated "production" server.
+  #
+  # This server let us test without XDebug, and with a dockerfile that
+  # can be setup just like the production server.  This lets us check that
+  # the dockerfile for production includes all the dependencies that are
+  # needed.
+  #
+  # This server also lets us test server performance without the overhead
+  # of the development environment.  The typical use case enables caching
+  # removes any debug dependencies and enables opcode caching.
+  ##########################################################################
+  prod-server:
+    build:
+      context: .
+      dockerfile: .docker/prod.docker/php7.prod.dockerfile
+    environment:
+      - TZ=America/Chicago
+    ports:
+      - "8002:80"
+    volumes:
+      - ./app/html:/var/www/html
+      - ./app:/var/www
+      - ./.docker/php/php.production.ini:/usr/local/etc/php/php.ini
+
+  ##########################################################################
+  # This section defines a Maria DB server and a PhpMyAdmin server for the
+  # development environment.
+  ##########################################################################
+  db:
+    image: mariadb
+    environment:
+      - TZ=America/Chicago
+      - MYSQL_ROOT_PASSWORD=i57z9*UIuJQ!
+      - collation-server=utf8mb4_unicode_ci
+      - character-set-server=utf8mb4
+      - MYSQL_DATABASE=database_name
+    ports:
+      - "5000:3306"
+    volumes:
+      - ./db-startup:/docker-entrypoint-initdb.d
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - TZ=America/Chicago
+      - PMA_USER=root
+      - PMA_PASSWORD=i57z9*UIuJQ!
+    ports:
+      - "9082:80"
+
+  ##########################################################################
+  # This section provides a Redis and PhpRedisAdmin server.
+  ##########################################################################
+  redis:
+    image: redis
+  phpredisadmin:
+    image:  erikdubbelboer/phpredisadmin
+    environment:
+      - TZ=America/Chicago
+      - REDIS_1_HOST=redis
+    ports:
+      - "9083:80"
+
+  ##########################################################################
+  # This section provides a Hopscotch server for exercising Restful APIs.
+  ##########################################################################
+  postwoman:
+    image: hoppscotch/hoppscotch
+    environment:
+      - TZ=America/Chicago
+    ports:
+      - "3000:3000"
+
+  ##########################################################################
+  # Apache AB for testing relative performance.
+  ##########################################################################
+  performance-testing:
+    image: httpd
+    environment:
+      - TZ=America/Chicago
+    volumes:
+      - ./performance-testing/:/usr/local/apache2/performance-testing
+    ports:
+      - "9084:80"
