@@ -22,14 +22,15 @@ RUN apt-get -y update \
 ############################################################################
 # Setup XDebug https://xdebug.org/download/historical
 # xdebug-x.x.x for specific version
-# xdebug-2.6.1 for PHP 7.0
+# xdebug for PHP 8.0 and nerwer
+# xdebug-3.1.5 for PHP 7.2-7.4
+# xdebug-2.6.1 for PHP 7.0-7.1
 # xdebug-2.5.5 for PHP 5.x
-# xdebug for php 7.1 and later
 # NOTE: You will need to chage the mapped file `xdebug.ini` in the
 #       docker-compose.yml to match your xdebug version.  See the README.md
 #       file for details.
 ############################################################################
-RUN pecl install xdebug \
+RUN pecl install xdebug-3.1.5 \
     && docker-php-ext-enable xdebug
 
 ############################################################################
