@@ -2,6 +2,8 @@
 
 High speed low drag PHP using Docker.
 
+I use this setup specifically with PhpStorm.
+
 Development environment as code AKA Infrastructure as code
 
 ## Quick start
