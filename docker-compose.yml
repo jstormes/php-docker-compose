@@ -26,6 +26,11 @@ services:
   # This section defines the PHP development server.
   ##########################################################################
   dev-server:
+    # Name the container for easy access now you can access the container
+    # by name `docker exec -it dev-server bash`.  You may need to change this
+    # name if you have a conflict in container names on you system.
+    container_name: dev-server
+
     # This section tells Docker to build a new container using the
     # setup specified in the given dockerfile.
     build:

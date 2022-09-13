@@ -50,7 +50,7 @@ Next, start the docker container by running `docker-compose up`.
 PHP Composer [https://getcomposer.org/](https://getcomposer.org/) is installed by default and can be run inside
 the dev-server container with the command `composer`.
 
-`docker exec -it php-docker-compose_dev-server_1 bash`
+`docker exec -it dev-server bash`
 
 user@45640a57cf9f:/app$ `composer (command)`
 
