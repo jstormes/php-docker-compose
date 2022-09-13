@@ -99,7 +99,7 @@ in xdebug.info.
 Codeception [https://codeception.com/](https://codeception.com/) is installed by default and can be run inside
 the dev-server container with `codeception`.
 
-`docker exec -it php-docker-compose_dev-server_1 bash`
+`docker exec -it dev-server bash`
 
 user@45640a57cf9f:/app$ `codeception (command)`
 
