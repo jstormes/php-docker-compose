@@ -172,7 +172,7 @@ services:
     environment:
       - TZ=America/Chicago
     ports:
-      - "8002:80"
+      - "8003:80"
     volumes:
       - ./app/html:/var/www/html
       - ./app:/var/www
