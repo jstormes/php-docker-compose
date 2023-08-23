@@ -9,6 +9,12 @@ RUN apt-get -y update \
 && docker-php-ext-install intl
 
 ############################################################################
+# Install MySQL PDO
+#########################################################################
+RUN docker-php-ext-install pdo pdo_mysql \
+&& docker-php-ext-configure pdo_mysql
+
+############################################################################
 # Install Apache modules
 ############################################################################
 RUN a2enmod rewrite

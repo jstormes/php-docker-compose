@@ -20,6 +20,12 @@ RUN apt-get -y update \
 && docker-php-ext-install intl
 
 ############################################################################
+# Install MySQL PDO
+#########################################################################
+RUN docker-php-ext-install pdo pdo_mysql \
+&& docker-php-ext-configure pdo_mysql
+
+############################################################################
 # Setup XDebug https://xdebug.org/download/historical
 # xdebug-x.x.x for specific version
 # xdebug for PHP 8.0 and nerwer
