@@ -172,3 +172,21 @@ services:
       - ./performance-testing/:/usr/local/apache2/performance-testing
     ports:
       - "9084:80"
+
+  ##########################################################################
+  # TensorFlow for testing machine learning.
+  ##########################################################################
+  tensorflow:
+    # Switch between GPU and CPU versions.
+#    image: tensorflow/tensorflow:latest-gpu-jupyter
+    image: tensorflow/tensorflow:latest-jupyter
+    environment:
+      - TZ=America/Chicago
+      - PASSWORD=password
+      - JUPYTER_TOKEN=easy
+    ports:
+      - "9085:8888"
+    volumes:
+      - ./tensorflow/:/tensorflow
+      - ./tensorflow/notebooks/:/tf/notebooks
+
