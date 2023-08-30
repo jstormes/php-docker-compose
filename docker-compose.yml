@@ -35,11 +35,12 @@ services:
     # setup specified in the given dockerfile.
     build:
       context: .
-      dockerfile: .docker/dev.docker/php7.dev.dockerfile
+      dockerfile: .docker/dev.docker/php8.dev.dockerfile
 
     # This section sets the environment variables inside the Docker container.
     environment:
       - TZ=America/Chicago
+      - PHP_IDE_CONFIG=serverName=dev-server
 
     # `ports` tells Docker to map port 80 from inside the container to
     # port 8001 outside the container aka port 8001 on the host.
@@ -172,3 +173,20 @@ services:
       - ./performance-testing/:/usr/local/apache2/performance-testing
     ports:
       - "9084:80"
+
+  ##########################################################################
+  # This section provides a mock server for testing Restful APIs.
+  # This server is used to mock the responses from the server.
+  # The mock server is configured using the mockcfg folder.
+  # http://localhost:9085/mockserver/dashboard
+  ##########################################################################
+  mockServer:
+    image: mockserver/mockserver:5.14.0
+    command: -logLevel DEBUG -serverPort 1090 -proxyPort 1091 -proxyRemotePort 1092
+    ports:
+      - 9085:1090
+    environment:
+      MOCKSERVER_PROPERTY_FILE: /mockcfg/mockserver.properties
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /mockcfg/initializerJson.json
+    volumes:
+      - ./mockcfg:/mockcfg

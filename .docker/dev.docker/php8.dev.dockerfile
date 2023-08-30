@@ -17,13 +17,18 @@ RUN apt-get -y update \
 RUN apt-get -y update \
 && apt-get install -y libicu-dev \
 && docker-php-ext-configure intl \
-&& docker-php-ext-install intl \
+&& docker-php-ext-install intl
 
 ############################################################################
 # Install MySQL PDO
 #########################################################################
 RUN docker-php-ext-install pdo pdo_mysql \
 && docker-php-ext-configure pdo_mysql
+
+############################################################################
+# Install MySQL client
+############################################################################
+RUN apt-get install -y default-mysql-client
 
 ############################################################################
 # Setup XDebug https://xdebug.org/download/historical
@@ -41,10 +46,15 @@ RUN useradd -m user \
     && mkdir -p /home/user/.ssh \
     && echo "Host *\n\tStrictHostKeyChecking no\n" >> /home/user/.ssh/config \
     && chown -R user:user /home/user/.ssh \
-    && echo "naked\nnaked" | passwd root
+    && echo "naked\nnaked" | passwd root \
+    && echo "alias mysql='mysql --user=root'" >> /home/user/.bashrc
+
+
 USER user
 WORKDIR /app
 CMD ["/bin/bash"]
+# Add our script files to the path so they can be found
+ENV PATH /app/bin:$PATH
 
 ############################################################################
 # Install PHP Composer https://getcomposer.org/download/
@@ -53,7 +63,10 @@ CMD ["/bin/bash"]
 RUN cd ~ \
     && mkdir bin \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer \
-    && chmod u+x ~/bin/composer
+    && chmod u+x ~/bin/composer \
+    && echo "alias composer='XDEBUG_MODE=off ~/bin/composer'" >> /home/user/.bashrc
+
+
 # Add our script files to the path so they can be found
 ENV PATH /app/vendor/bin:/var/www/vendor/bin:~/bin:~/.composer/vendor/bin:$PATH
 

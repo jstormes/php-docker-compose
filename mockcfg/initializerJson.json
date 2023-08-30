@@ -1,0 +1,44 @@
+[
+    {
+        "id": "1",
+        "priority": 0,
+        "httpRequest": {
+            "secure": false,
+            "keepAlive": true,
+            "method": "PUT",
+            "path": "/somepath/xyz/38",
+            "body": {
+                "item_to_update": [
+                    1234
+                ],
+                "data": {
+                    "note": "Updated in test"
+                }
+            }
+        },
+        "httpResponse": {
+            "body": "we need to change this eventually"
+        }
+    },
+    {
+        "id": "2",
+        "priority": 0,
+        "httpRequest": {
+            "secure": false,
+            "keepAlive": true,
+            "method": "PUT",
+            "path": "/somepath/xyz/38",
+            "body": {
+                "item_to_update": [
+                    456
+                ],
+                "data": {
+                    "note": "Updated in test"
+                }
+            }
+        },
+        "httpResponse": {
+            "body": "we need to change this eventually"
+        }
+    }
+]
