@@ -58,7 +58,8 @@ user@45640a57cf9f:/app$ `composer (command)`
 
 The current configuration will look for an SSH key in `~/.ssh/id_rsa`.
 
-If you don't need that comment out any lines that reference that.
+You will need to uncomment the `secrets:` section in the `docker-compose.yml` file to use your own SSH key,
+without adding it to the repository.
 
 ## XDebug
 
@@ -67,10 +68,7 @@ XDebug is installed and configured separately for the command line (CLI) and web
 ### Command Line (CLI)
 
 The XDebug configuration for the command line can be found in `./docker/php/confi.d` for each version of PHP.
-
-The command line is not configured for debugging by default, but is configured for profiling and coverage.
-This is to support PHPUnit and Codeception.  It also keeps the IDE debugger from being triggered by the PHP
-cli tools.  You can change this behaviour by editing the `./docker/php/confi.d` file.
+You can change this XDebugs CLI behaviour by editing the `./docker/php/confi.d` file.
 
 ### Web (HTTP)
 
@@ -99,7 +97,7 @@ in xdebug.info.
 Codeception [https://codeception.com/](https://codeception.com/) is installed by default and can be run inside
 the dev-server container with `codeception`.
 
-`docker exec -it dev-server bash`
+`docker exec -it (container) bash`
 
 user@45640a57cf9f:/app$ `codeception (command)`
 
