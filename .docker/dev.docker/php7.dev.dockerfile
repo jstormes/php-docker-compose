@@ -72,8 +72,17 @@ RUN cd ~ \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer \
     && chmod u+x ~/bin/composer \
     && echo "alias composer='XDEBUG_MODE=off ~/bin/composer'" >> /home/user/.bashrc
+
+
 # Add our script files to the path so they can be found
 ENV PATH /app/vendor/bin:/var/www/vendor/bin:~/bin:~/.composer/vendor/bin:$PATH
+
+############################################################################
+# Install the laminas migration tool
+# see https://docs.laminas.dev/migration/
+############################################################################
+RUN ~/bin/composer global require laminas/laminas-migration \
+    && echo "alias laminas-migration='XDEBUG_MODE=off ~/.composer/vendor/bin/laminas-migration'" >> /home/user/.bashrc
 
 ############################################################################
 # Isntall Codeception native
