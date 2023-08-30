@@ -35,7 +35,7 @@ services:
     # setup specified in the given dockerfile.
     build:
       context: .
-      dockerfile: .docker/dev.docker/php8.dev.dockerfile
+      dockerfile: .docker/dev.docker/php7.dev.dockerfile
 
     # This section sets the environment variables inside the Docker container.
     environment:
