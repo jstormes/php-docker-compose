@@ -41,6 +41,8 @@ services:
     environment:
       - TZ=America/Chicago
       - PHP_IDE_CONFIG=serverName=dev-server
+      - MYSQL_PWD=i57z9*UIuJQ!  # The user "root" is set up in the dockerfile.
+      - MYSQL_HOST=db
 
     # `ports` tells Docker to map port 80 from inside the container to
     # port 8001 outside the container aka port 8001 on the host.
