@@ -186,7 +186,7 @@ services:
     image: mockserver/mockserver:5.14.0
     command: -logLevel DEBUG -serverPort 1090 -proxyPort 1091 -proxyRemotePort 1092
     ports:
-      - 9085:1090
+      - "9085:1090"
     environment:
       MOCKSERVER_PROPERTY_FILE: /mockcfg/mockserver.properties
       MOCKSERVER_INITIALIZATION_JSON_PATH: /mockcfg/initializerJson.json
