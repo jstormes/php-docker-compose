@@ -1,0 +1,14 @@
+{
+  "name": "vendor_name/php-docker-compose",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "jstormes",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  }
+}

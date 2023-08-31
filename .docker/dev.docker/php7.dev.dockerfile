@@ -69,9 +69,10 @@ CMD ["/bin/bash"]
 ############################################################################
 RUN cd ~ \
     && mkdir bin \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer \
-    && chmod u+x ~/bin/composer \
-    && echo "alias composer='XDEBUG_MODE=off ~/bin/composer'" >> /home/user/.bashrc
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer.phar \
+    && chmod u+x ~/bin/composer.phar \
+    && echo "#!/usr/bin/env bash\n\nXDEBUG_MODE=off ~/bin/composer.phar \$@" > ~/bin/composer \
+    && chmod u+x ~/bin/composer
 
 
 # Add our script files to the path so they can be found
