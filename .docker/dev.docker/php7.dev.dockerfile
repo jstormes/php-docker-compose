@@ -79,13 +79,6 @@ RUN cd ~ \
 ENV PATH /app/vendor/bin:/var/www/vendor/bin:~/bin:~/.composer/vendor/bin:$PATH
 
 ############################################################################
-# Install the laminas migration tool
-# see https://docs.laminas.dev/migration/
-############################################################################
-RUN ~/bin/composer global require laminas/laminas-migration \
-    && echo "alias laminas-migration='XDEBUG_MODE=off ~/.composer/vendor/bin/laminas-migration'" >> /home/user/.bashrc
-
-############################################################################
 # Isntall Codeception native
 ############################################################################
 RUN curl -LsS https://codeception.com/codecept.phar -o ~/bin/codecept \
